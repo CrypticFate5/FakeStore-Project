@@ -1,4 +1,3 @@
-"use client"
 import { useEffect, useState } from "react";
 import ProductCard from "../ProductCard/product";
 import axios from "axios";
@@ -20,48 +19,58 @@ interface ProductComp {
 
 interface ProductsProps {
     searchQuery: string;
+    selectedCategory: string;
 }
 
-const Products:React.FC<ProductsProps> = ({searchQuery}) => {
+const Products: React.FC<ProductsProps> = ({ searchQuery, selectedCategory }) => {
     const [products, setProducts] = useState<ProductComp[]>([]);
-    const [searchProds,setSearchProds]=useState<ProductComp[]>([]);
+    const [filteredProducts, setFilteredProducts] = useState<ProductComp[]>([]);
 
     useEffect(() => {
-        const getProduct = async () => {
+        const fetchProducts = async () => {
             try {
                 const response = await axios.get("https://fakestoreapi.com/products");
                 setProducts(response.data);
-                console.log(products);
-            } catch (e) {
-                console.log(e);
+            } catch (error) {
+                console.error("Error fetching products:", error);
             }
-        }
-        getProduct();
+        };
+
+        fetchProducts();
     }, []);
 
-    useEffect(()=>{
-        console.log(searchQuery);
-        if(searchQuery){
-            const filteredProds=products.filter(product=>
+    useEffect(() => {
+        let filtered = products;
+
+        if (searchQuery) {
+            filtered = filtered.filter(product =>
                 product.title.toLowerCase().includes(searchQuery.toLowerCase())
             );
-            setSearchProds(filteredProds);
         }
-        else{
-            setSearchProds(products);
+
+        if (selectedCategory && selectedCategory !== "All") {
+            filtered = filtered.filter(product =>
+                product.category.toLowerCase() === selectedCategory.toLowerCase()
+            );
         }
-    },[searchQuery,products]);
+
+        setFilteredProducts(filtered);
+    }, [products, searchQuery, selectedCategory]);
 
     return (
         <>
             <div className="mx-20 flex flex-wrap gap-4">
-                {
-                    searchProds.map((product, index) => (
-                        <div className="">
-                            <ProductCard key={index} id={product.id} title={product.title} price={product.price} image={product.image} rating={product.rating}></ProductCard>
-                        </div>
-                    ))
-                }
+                {filteredProducts.map((product, index) => (
+                    <div key={index} className="">
+                        <ProductCard
+                            id={product.id}
+                            title={product.title}
+                            price={product.price}
+                            image={product.image}
+                            rating={product.rating}
+                        />
+                    </div>
+                ))}
             </div>
         </>
     );
