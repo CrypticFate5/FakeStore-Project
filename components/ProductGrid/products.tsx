@@ -18,8 +18,13 @@ interface ProductComp {
     rating: Rating;
 };
 
-const Products = () => {
+interface ProductsProps {
+    searchQuery: string;
+}
+
+const Products:React.FC<ProductsProps> = ({searchQuery}) => {
     const [products, setProducts] = useState<ProductComp[]>([]);
+    const [searchProds,setSearchProds]=useState<ProductComp[]>([]);
 
     useEffect(() => {
         const getProduct = async () => {
@@ -34,11 +39,24 @@ const Products = () => {
         getProduct();
     }, []);
 
+    useEffect(()=>{
+        console.log(searchQuery);
+        if(searchQuery){
+            const filteredProds=products.filter(product=>
+                product.title.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+            setSearchProds(filteredProds);
+        }
+        else{
+            setSearchProds(products);
+        }
+    },[searchQuery,products]);
+
     return (
         <>
             <div className="mx-20 flex flex-wrap gap-4">
                 {
-                    products.map((product, index) => (
+                    searchProds.map((product, index) => (
                         <div className="">
                             <ProductCard key={index} id={product.id} title={product.title} price={product.price} image={product.image} rating={product.rating}></ProductCard>
                         </div>

@@ -4,13 +4,24 @@ import { ModeToggle } from "../ui/modetoggle";
 import ProductsDropDown from "./products";
 import axios from "axios";
 import Search from "./search";
-const Navbar=()=>{
+import { useState } from "react";
+
+interface NavbarProps{
+    onSearch: (query: string) => void;
+}
+
+const Navbar:React.FC<NavbarProps>=({onSearch})=>{
+    const [search, setSearch] = useState("");
+
+    const handleSearch = (query: string) => {
+        setSearch(query);
+    };
     
     return (
         <>
         <nav className="flex items-center m-3 mx-10 justify-between">
             <div className="text-4xl">FakeStore</div>
-            <Search></Search>
+            <Search onSearch={onSearch}></Search>
             <div className="menu flex items-center gap-5">
                 <ul className="list-none font-semibold flex gap-10">
                     <li><Link href="/">Home</Link></li>

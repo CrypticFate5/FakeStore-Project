@@ -1,35 +1,30 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { PlaceholdersAndVanishInput } from "../ui/placeholders-and-vanish-input";
-const Search = () => {
-    const [products, setProducts] = useState([]);
-    useEffect(() => {
-        const getProds = async () => {
-            try {
-                const response = await axios.get("https://fakestoreapi.com/products/categories");
-                const prodList = response.data;
-                console.log(products);
-                setProducts(prodList);
-            }
-            catch (e) {
-                console.log(e);
-            }
-        }
-        getProds();
-        console.log(products);
-    }, [products]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value);
+interface SearchProps {
+    onSearch: (query: string) => void;
+};
+
+const Search:React.FC<SearchProps> = ({onSearch}) => {
+
+    const [search,setSearch]=useState("");
+
+    const handleChange = (e: any) => {
+        setSearch(e.target.value);
+        onSearch(search);
+        // console.log(e.target.value);
     };
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: any) => {
+        setSearch("");
+        onSearch(search);
         e.preventDefault();
-        console.log("submitted");
+        // console.log(e.target);
     };
     const products1=["Search","Fake","Faster"];
 
     return (
-        <PlaceholdersAndVanishInput placeholders={products1} onChange={handleChange} onSubmit={onSubmit}></PlaceholdersAndVanishInput>
+        <PlaceholdersAndVanishInput placeholders={products1} onChange={handleChange} onSubmit={handleSubmit}></PlaceholdersAndVanishInput>
     );
 };
 
