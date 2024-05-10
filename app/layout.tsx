@@ -1,19 +1,33 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import "@/styles/globals.css"
+import { Inter as FontSans } from "next/font/google"
+import { ThemeProvider } from "@/components/theme-provider"
+import { cn } from "@/lib/utils"
 
-export const metadata: Metadata = {
-  title: "FakeStore",
-  description: "MakerStudio Assesment",
-};
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+})
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: any) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" >
+      <title>FakeStore App</title>
+      <head />
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
-  );
+  )
 }

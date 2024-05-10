@@ -1,6 +1,11 @@
+import Navbar from "@/components/Navbar/navbar";
+import Products from "@/components/ProductGrid/products";
 const Home=()=>{
   return (
-    <>Welcome to FakeStore</>
+    <>
+        <Navbar></Navbar>
+        <Products></Products>
+    </>
   );
 };
 
