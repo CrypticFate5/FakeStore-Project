@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../ProductCard/product";
 import axios from "axios";
+import Link from "next/link";
 
 interface Rating {
     rate: number;
@@ -62,13 +63,15 @@ const Products: React.FC<ProductsProps> = ({ searchQuery, selectedCategory }) =>
             <div className="mx-20 flex flex-wrap gap-4">
                 {filteredProducts.map((product, index) => (
                     <div key={index} className="">
-                        <ProductCard
-                            id={product.id}
-                            title={product.title}
-                            price={product.price}
-                            image={product.image}
-                            rating={product.rating}
-                        />
+                        <Link href={`/${product.id}`}>
+                            <ProductCard
+                                id={product.id}
+                                title={product.title}
+                                price={product.price}
+                                image={product.image}
+                                rating={product.rating}
+                            />
+                        </Link>
                     </div>
                 ))}
             </div>

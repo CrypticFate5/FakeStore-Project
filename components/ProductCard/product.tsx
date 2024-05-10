@@ -36,10 +36,10 @@ const ProductCard: React.FC<ProductProps> = (props) => {
         <div className="m-10">
             <BackgroundGradient className="rounded-[22px]  bg-white dark:bg-zinc-900">
                 <div className="h-[525px] w-[350px] relative cursor-pointer">
-                    <div className="flex justify-between p-3">
+                    {/* <div className="flex justify-between p-3">
                         <Heart className="size-8 bg-red-500 p-1 rounded-3xl"></Heart>
                         <ShoppingCart className="size-8 bg-green-500 p-1 rounded-3xl"></ShoppingCart>
-                    </div>
+                    </div> */}
                     <div className="h-[350px] w-full absolute top-0 left-0">
                         <div className="h-full flex justify-center items-center">
                             <div className="w-[200px] mx-auto flex justify-center items-center">
