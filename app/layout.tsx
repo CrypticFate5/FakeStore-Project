@@ -15,6 +15,7 @@ export default function RootLayout({ children }: any) {
     <CartProvider>
 
     <html lang="en" >
+      <link rel="icon" href="favicon.png" sizes="any" />
       <title>FakeStore App</title>
       <head />
       <body
