@@ -35,7 +35,7 @@ const ProductCard: React.FC<ProductProps> = (props) => {
     return (
         <div className="m-10">
             <BackgroundGradient className="rounded-[22px]  bg-white dark:bg-zinc-900">
-                <div className="h-[525px] w-[350px] relative cursor-pointer">
+                <div className="h-[525px] w-[350px] relative cursor-pointer dark:bg-slate-900 rounded-[22px] ">
                     {/* <div className="flex justify-between p-3">
                         <Heart className="size-8 bg-red-500 p-1 rounded-3xl"></Heart>
                         <ShoppingCart className="size-8 bg-green-500 p-1 rounded-3xl"></ShoppingCart>
@@ -48,19 +48,19 @@ const ProductCard: React.FC<ProductProps> = (props) => {
                                     alt={props.title}
                                     height={100}
                                     width={300}
-                                    className="max-h-[300px]"
+                                    className="max-h-[300px] rounded-md"
                                 />
                             </div>
                         </div>
                     </div>
                     <div className="absolute bottom-12 left-0 right-0 text-center">
-                        <div className="font-semibold m-1">{props.title}</div>
+                        <div className="font-semibold m-1 px-3">{props.title}</div>
                         <div className="rating flex items-center justify-evenly  font-medium">
                             <div className="flex items-center">
                                 <div>{props.rating.rate}</div>
-                                <Star className="mx-1 size-4 text-green-500"></Star>
+                                <Star className="mx-1 size-4 text-yellow-400"></Star>
+                                <div>({props.rating.count})</div>
                             </div>
-                            <div>{props.rating.count} Ratings</div>
                         </div>
                         <div className="mt-3 flex font-bold text-2xl justify-around items-center">
                             <div >

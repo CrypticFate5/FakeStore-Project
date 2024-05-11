@@ -1,7 +1,9 @@
+"use client";
 import "@/styles/globals.css"
 import { Inter as FontSans } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils"
+import { CartProvider } from "@/components/Cart/cartContext"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -10,6 +12,8 @@ const fontSans = FontSans({
 
 export default function RootLayout({ children }: any) {
   return (
+    <CartProvider>
+
     <html lang="en" >
       <title>FakeStore App</title>
       <head />
@@ -29,5 +33,6 @@ export default function RootLayout({ children }: any) {
         </ThemeProvider>
       </body>
     </html>
+    </CartProvider>
   )
 }

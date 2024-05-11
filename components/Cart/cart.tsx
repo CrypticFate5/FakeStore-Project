@@ -1,76 +1,55 @@
 import React from "react";
+import { Minus, Plus, Trash, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
+import {Drawer,DrawerContent,DrawerFooter,DrawerHeader,DrawerTitle,DrawerClose,} from "@/components/ui/drawer";
+import { useCart } from "@/components/Cart/cartContext";
+import { on } from "events";
 
-interface Product {
-  id: string;
-  title: string;
-  price: number;
+interface CartDrawerProps {
+  onClose: () => void;
+  onOpen: boolean;
 }
 
-interface DrawerDemoProps {
-  products: Product[];
-  onClose: () => void; 
-}
-
-const DrawerDemo: React.FC<DrawerDemoProps> = ({ products, onClose }) => {
-  const [cartItems, setCartItems] = React.useState<Product[]>([]);
-
-  const addToCart = (product: Product) => {
-    setCartItems([...cartItems, product]);
-  };
-
-  const removeFromCart = (productId: string) => {
-    const updatedCartItems = cartItems.filter((item) => item.id !== productId);
-    setCartItems(updatedCartItems);
-  };
-
-  const calculateTotalCost = () => {
-    return cartItems.reduce((total, item) => total + item.price, 0);
-  };
+export function CartDrawer({ onClose ,onOpen}: CartDrawerProps) {
+  const { cart, incrementQuantity, decrementQuantity, removeFromCart } =
+    useCart();
 
   return (
-    <Drawer>
+    <Drawer open={onOpen} onClose={onClose} onRelease={onClose}>
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Shopping Cart</DrawerTitle>
         </DrawerHeader>
-s        <div className="p-4">
-          {cartItems.map((item) => (
-            <div key={item.id} className="flex justify-between mb-2">
-              <span>{item.title}</span>
-              <span>₹{item.price}</span>
-              <Button
-                variant="outline"
-                onClick={() => removeFromCart(item.id)}
-              >
-                Remove
-              </Button>
+        <div className="p-4">
+          {cart.map((item) => (
+            <div key={item.id} className="flex items-center justify-between mb-4">
+              <div>
+                <div>{item.name}</div>
+                <div>${item.price.toFixed(2)}</div>
+              </div>
+              <div className="flex items-center gap-6 text-2xl">
+                {/* <Button onClick={() => decrementQuantity(item.id)}> */}
+                  {/* <Minus className="h-4 w-4" /> */}
+                  <Minus onClick={() => decrementQuantity(item.id)} className="h-4 w-4 cursor-pointer" />
+
+                {/* </Button> */}
+                <div>{item.quantity}</div>
+                {/* <Button onClick={() => incrementQuantity(item.id)}> */}
+                  <Plus onClick={() => incrementQuantity(item.id)} className="h-4 w-4 cursor-pointer" />
+                {/* </Button> */}
+                {/* <Trash2 onClick={()=> removeFromCart(item.id)} className="fill-red-600"></Trash2> */}
+                <Button onClick={()=> removeFromCart(item.id)} variant="destructive">Remove</Button>
+                
+              </div>
             </div>
           ))}
         </div>
         <DrawerFooter>
-          <div className="flex justify-between px-4">
-            <span>Total:</span>
-            <span>₹{calculateTotalCost()}</span>
-          </div>
-          {/* Button to close the cart drawer */}
           <DrawerClose asChild>
-            <Button variant="outline" onClick={onClose}>
-              Close Cart
-            </Button>
+            <Button variant="outline" onClick={onClose}>Close</Button>
           </DrawerClose>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );
-};
-
-export default DrawerDemo;
+}
